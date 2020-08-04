@@ -6,6 +6,7 @@ mkShell {
     pkgconfig
   ];
   buildInputs = [
+    #python38Packages.poetry
     freetype libjpeg zlib libtiff libwebp tcl lcms2  # Pillow
     libxml2 libxslt  # lxml
     gettext  # Django

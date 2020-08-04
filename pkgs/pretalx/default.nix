@@ -4,28 +4,15 @@
 }:
 
 let
-  default = poetry2nix.defaultPoetryOverrides;
+  django-scopes = pkgs.python3Packages.callPackage ./django-scopes.nix { };
+  app = mypoetry2nix.mkPoetryApplication {
+    projectDir = ./.;
+    doCheck = false;
 
-  overrides = default // {
-    # Pretalx is missing dependencies upstream
-    pretalx = let
-      overriden = self: super: drv: default.pretalx self super drv;
-    in self: super: drv: drv.overrideAttrs(old: {
-      nativeBuildInputs = old.nativeBuildInputs ++ [
-        pkgs.sass
-      ];
-    });
-
-    static3 = self: super: drv: drv.overrideAttrs(old: {
-      patches = [ ./static3.patch ];
-    });
-
+    overrides = mypoetry2nix.overrides.withDefaults (
+      self: super: {
+        inherit django-scopes;
+      }
+    );
   };
-
-in (poetry2nix.mkPoetryPackage {
-  src = ./.;
-  doCheck = false;
-  inherit overrides;
-}).overrideAttrs(old: {
-  inherit (old.passthru.pythonPackages.pretalx) pname name version;
-})
+in app.dependencyEnv

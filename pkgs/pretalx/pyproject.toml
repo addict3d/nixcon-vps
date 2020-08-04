@@ -7,15 +7,17 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pretalx = "^1.0"
+pretalx = "^1.1.2"
 psycopg2-binary = "^2.8"
 dj-static = "^0.0.6"
-django-redis = "^4.10"
+django-redis = "^4.12"
+#django-scopes = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 
 [build-system]
-requires = ["poetry>=0.12"]
+requires = ["poetry>=1.0.5"]
+# poetry 1.0.9 is stable Jun 9th
 build-backend = "poetry.masonry.api"
 
 [tool.poetry.scripts]
