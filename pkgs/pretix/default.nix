@@ -29,7 +29,7 @@ let
 
   };
 
-in (poetry2nix.mkPoetryPackage {
+in (poetry2nix.mkPoetryApplication {
   src = ./.;
   doCheck = false;
   inherit overrides;

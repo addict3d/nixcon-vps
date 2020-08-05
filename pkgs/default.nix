@@ -1,17 +1,18 @@
-{ pkgs ? import <nixpkgs> { } }:
+{ pkgs ? import <nixpkgs> { } ,
+  poetry ? pkgs.poetry }:
 
 rec {
 
   poetry2nix = import (pkgs.fetchFromGitHub {
-    owner = "adisbladis";
+    owner = "nix-community";
     repo = "poetry2nix";
-    rev = "6a45f49aae0ece24c634995eb75d2942be87a4cd";
-    sha256 = "1bkzncn74mpjj4sf945caxnx3kyi88x8g73q6724qi76g5izccqq";
-  }) { inherit pkgs; };
+    rev = "270a0b26b773e566ad59927c51d40a5e9b8ff08d";
+    sha256 = "0yw8vdwgqw2y3mpyya9gy1l93115yxnv5yamr31nfvzhwkgj9qz5";
+  }) { inherit pkgs poetry; };
 
-  pretix = import ./pretix {
-    inherit pkgs poetry2nix;
-  };
+  #pretix = import ./pretix {
+    #inherit pkgs poetry2nix;
+  #};
 
   pretalx = import ./pretalx {
     inherit pkgs poetry2nix;

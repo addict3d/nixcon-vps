@@ -3,7 +3,7 @@
 {
   imports = [
     ../services/pretalx.nix
-    ../services/pretix.nix
+    #../services/pretix.nix
   ];
 
   services.postgresql = {
@@ -34,16 +34,16 @@
     recommendedOptimisation = true;
     recommendedGzipSettings = true;
     recommendedProxySettings = true;
-    virtualHosts."cfp.nixcon.org" = {
-      enableACME = true;
-      forceSSL = true;
+    virtualHosts."cfp.test" = {
+      enableACME = false;
+      forceSSL = false;
       locations."/" = {
         proxyPass = "http://localhost:8001";
       };
     };
-    virtualHosts."tickets.nixcon.org" = {
-      enableACME = true;
-      forceSSL = true;
+    virtualHosts."tickets.test" = {
+      enableACME = false;
+      forceSSL = false;
       locations."/" = {
         proxyPass = "http://localhost:8002";
       };

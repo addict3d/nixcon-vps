@@ -11,6 +11,7 @@ pretalx = "^1.1.2"
 psycopg2-binary = "^2.8"
 dj-static = "^0.0.6"
 django-redis = "^4.12"
+gunicorn = "*"
 #django-scopes = "^1.2.0"
 
 [tool.poetry.dev-dependencies]

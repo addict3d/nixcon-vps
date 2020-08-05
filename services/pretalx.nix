@@ -1,15 +1,14 @@
 { ... }:
 
 let
-  pkgs = import ./unstable.nix { };
+  #pkgs = import ./unstable.nix { };
+  pkgs = import <nixpkgs> { };
 
   pretalx = (import ../pkgs/pretalx {
     inherit pkgs;
   });
 
-  pythonPackages = pretalx.passthru.pythonPackages;
-  gunicorn = pythonPackages.gunicorn;
-  python = pythonPackages.python;
+  gunicorn = pretalx.dependencyEnv.passthru.pkgs.gunicorn;
 
   name = "pretalx";
   user = "pretalx";
@@ -38,6 +37,20 @@ let
     };
   };
 
+  mycfg = (pkgs.stdenv.mkDerivation {
+    pname = "my-pretalx-config";
+    version = "0.0.1";
+    patches = [];
+    dontUnpack = true;
+    dontConfigure = true;
+    dontBuild = true;
+    dontFixup = true;
+    # make this 'pkg' give us a symlink outside of the store.
+    installPhase = ''
+      mkdir -p $out
+      ln -s --no-target /home/nick/pretalx.cfg $out/pretalx.cfg
+      '';
+  });# {};
 
 in {
 
@@ -48,7 +61,9 @@ in {
     description = "Pretalx user";
   };
 
-  environment.etc."pretalx/pretalx.cfg".source = ./pretalx.cfg;
+
+  #environment.etc."pretalx/pretalx.cfg".source = ./pretalx.cfg;
+  environment.etc."pretalx/pretalx.cfg".source = "${mycfg}/pretalx.cfg";
 
   systemd.services.pretalx-migrate = {
     description = "Pretalx DB Migrations";
